@@ -22,8 +22,12 @@ namespace AboutStorage
         public int LengthSegmentOnPictureBox;
         public PictureBox PictureBox;
         public Label Label;
+        ListBox ListBoxWaitingProcesses;
+        ListBox ListBoxProcessingProcesses;
+        ListBox ListBoxExecutedProcesses;
 
-        public AddresSpace(int timeExecuting, int countOfSegments, List<Process> processes, PictureBox pictureBox, Label label)
+        public AddresSpace(int timeExecuting, int countOfSegments, List<Process> processes, PictureBox pictureBox, Label label,
+            ListBox listBoxWaitingProcesses, ListBox listBoxProcessingProcesses, ListBox listBoxExecutedProcesses)
         {
             TimeExecuting = timeExecuting;
             Segments = new List<Segment>();
@@ -35,6 +39,10 @@ namespace AboutStorage
             PictureBox = pictureBox;
             Processes = processes;
             Label = label;
+            ListBoxWaitingProcesses = listBoxWaitingProcesses;
+            ListBoxProcessingProcesses = listBoxProcessingProcesses;
+            ListBoxExecutedProcesses = listBoxExecutedProcesses;
+
 
             for (int i = 0; i < countOfSegments; i++)
                 Segments.Add(new Segment(new Point[] {
@@ -136,7 +144,7 @@ namespace AboutStorage
                         break;
                     }
                 }
-                Thread.Sleep(400);
+                Thread.Sleep(1000);
                 timeLeft += 1;
                 foreach (Process prProcess in ProcessingProcesses)
                 {
@@ -178,11 +186,28 @@ namespace AboutStorage
                     if (Processes.Count > 0)
                         countSegmentsNeed = Processes[0].CountSegmentsNeed;
                 }
-                Label.Invoke(new Action(() => Label.Text = CountFreeSegments.ToString()));
+                Label.Invoke(new Action(() => Label.Text = CountFreeSegments.ToString() + " - количество свободных сегментов"));
                 foreach (Segment segment in Segments)
                     segment.FillSegment(PictureBox.CreateGraphics());
+                UpdateListBoxes();
             }
         }
 
+        void UpdateListBoxes()
+        {
+            ListBoxWaitingProcesses.Invoke(new Action(() => ListBoxWaitingProcesses.Items.Clear()));
+            foreach (Process process in Processes)
+                ListBoxWaitingProcesses.Invoke(new Action(() => ListBoxWaitingProcesses.Items
+                .Add($"{process.Color} {process.CountSegmentsNeed} {process.TimeTotalExecuting}")));
+            ListBoxProcessingProcesses.Invoke(new Action(() => ListBoxProcessingProcesses.Items.Clear()));
+            foreach (Process process in ProcessingProcesses)
+                ListBoxProcessingProcesses.Invoke(new Action(() => ListBoxProcessingProcesses.Items
+                .Add($"{process.Color} {process.CountSegmentsNeed} {process.TimeTotalExecuting}")));
+            ListBoxExecutedProcesses.Invoke(new Action(() => ListBoxExecutedProcesses.Items.Clear()));
+            foreach (Process process in ExecutedProcesses)
+                ListBoxExecutedProcesses.Invoke(new Action(() => ListBoxExecutedProcesses.Items
+                .Add($"{process.Color} {process.CountSegmentsNeed} {process.TimeTotalExecuting}")));
+
+        }
     }
 }

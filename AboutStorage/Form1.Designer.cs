@@ -34,6 +34,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.listBoxWaitingProcesses = new System.Windows.Forms.ListBox();
+            this.listBoxProcessingProcesses = new System.Windows.Forms.ListBox();
+            this.listBoxExecutedProcesses = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,7 +68,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(132, 22);
             this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "23";
+            this.textBox1.Text = "78";
             // 
             // label1
             // 
@@ -91,17 +94,47 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(892, 225);
+            this.label2.Location = new System.Drawing.Point(755, 180);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "label2";
             // 
+            // listBoxWaitingProcesses
+            // 
+            this.listBoxWaitingProcesses.FormattingEnabled = true;
+            this.listBoxWaitingProcesses.ItemHeight = 16;
+            this.listBoxWaitingProcesses.Location = new System.Drawing.Point(701, 231);
+            this.listBoxWaitingProcesses.Name = "listBoxWaitingProcesses";
+            this.listBoxWaitingProcesses.Size = new System.Drawing.Size(287, 404);
+            this.listBoxWaitingProcesses.TabIndex = 6;
+            // 
+            // listBoxProcessingProcesses
+            // 
+            this.listBoxProcessingProcesses.FormattingEnabled = true;
+            this.listBoxProcessingProcesses.ItemHeight = 16;
+            this.listBoxProcessingProcesses.Location = new System.Drawing.Point(994, 231);
+            this.listBoxProcessingProcesses.Name = "listBoxProcessingProcesses";
+            this.listBoxProcessingProcesses.Size = new System.Drawing.Size(287, 404);
+            this.listBoxProcessingProcesses.TabIndex = 7;
+            // 
+            // listBoxExecutedProcesses
+            // 
+            this.listBoxExecutedProcesses.FormattingEnabled = true;
+            this.listBoxExecutedProcesses.ItemHeight = 16;
+            this.listBoxExecutedProcesses.Location = new System.Drawing.Point(1287, 231);
+            this.listBoxExecutedProcesses.Name = "listBoxExecutedProcesses";
+            this.listBoxExecutedProcesses.Size = new System.Drawing.Size(287, 404);
+            this.listBoxExecutedProcesses.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1404, 794);
+            this.ClientSize = new System.Drawing.Size(1577, 794);
+            this.Controls.Add(this.listBoxExecutedProcesses);
+            this.Controls.Add(this.listBoxProcessingProcesses);
+            this.Controls.Add(this.listBoxWaitingProcesses);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
@@ -126,6 +159,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox listBoxWaitingProcesses;
+        private System.Windows.Forms.ListBox listBoxProcessingProcesses;
+        private System.Windows.Forms.ListBox listBoxExecutedProcesses;
     }
 }
 

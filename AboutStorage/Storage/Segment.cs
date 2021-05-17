@@ -35,6 +35,7 @@ namespace AboutStorage
                 g.FillPolygon(new SolidBrush(Color.White), Points);
             else
                 g.FillPolygon(new SolidBrush(CurrentProcess.Color), Points);
+            g.DrawPolygon(new Pen(Color.Black, 1), Points);
         }
     }
 }
