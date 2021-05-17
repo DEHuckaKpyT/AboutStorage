@@ -23,9 +23,12 @@ namespace AboutStorage
         private void Form1_Load(object sender, EventArgs e)
         {
             Processes = new List<Process>();
-            Processes.Add(new Process(30, 4, Color.Red));
-            Processes.Add(new Process(30, 3, Color.Blue));
-            Processes.Add(new Process(30, 5, Color.Yellow));
+            Processes.Add(new Process(5, 11, Color.Red));
+            Processes.Add(new Process(30, 9, Color.Blue));
+            Processes.Add(new Process(30, 7, Color.Yellow));
+            Processes.Add(new Process(30, 7, Color.Green));
+            Processes.Add(new Process(30, 15, Color.Black));
+            Processes.Add(new Process(30, 9, Color.SandyBrown));
 
 
 
@@ -33,14 +36,15 @@ namespace AboutStorage
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AddresSpace = new AddresSpace(8, int.Parse(textBox1.Text), Processes, pictureBox1);
+            AddresSpace = new AddresSpace(8, int.Parse(textBox1.Text), Processes, pictureBox1, label2);
             AddresSpace.PaintSegments();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            new Thread(new ThreadStart(AddresSpace.StartProcesses)).Start();
-            new Thread(new ThreadStart(AddresSpace.DoProcessingProcesses)).Start();
+            //new Thread(new ThreadStart(AddresSpace.StartProcesses)).Start();
+            //new Thread(new ThreadStart(AddresSpace.DoProcessingProcesses)).Start();
+            new Thread(new ThreadStart(AddresSpace.StartProcessing)).Start();
         }
 
 

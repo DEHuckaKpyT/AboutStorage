@@ -15,22 +15,26 @@ namespace AboutStorage
         public List<Segment> Segments;
         public List<Process> Processes;
         public List<Process> ProcessingProcesses;
+        public List<Process> ExecutedProcesses;
         public int CountFreeSegments;
 
         public int CountSegmentsOnSidePictureBox;
         public int LengthSegmentOnPictureBox;
         public PictureBox PictureBox;
+        public Label Label;
 
-        public AddresSpace(int timeExecuting, int countOfSegments, List<Process> processes, PictureBox pictureBox)
+        public AddresSpace(int timeExecuting, int countOfSegments, List<Process> processes, PictureBox pictureBox, Label label)
         {
             TimeExecuting = timeExecuting;
             Segments = new List<Segment>();
             ProcessingProcesses = new List<Process>();
+            ExecutedProcesses = new List<Process>();
             CountSegmentsOnSidePictureBox = (int)Math.Ceiling(Math.Sqrt(countOfSegments));
             LengthSegmentOnPictureBox = pictureBox.Height / CountSegmentsOnSidePictureBox;
             CountFreeSegments = countOfSegments;
             PictureBox = pictureBox;
             Processes = processes;
+            Label = label;
 
             for (int i = 0; i < countOfSegments; i++)
                 Segments.Add(new Segment(new Point[] {
@@ -62,7 +66,6 @@ namespace AboutStorage
                 {
                     segment.Using = true;
                     segment.CurrentProcess = process;
-                    ProcessingProcesses.Add(process);
                     countSegmentsNeed--;
                 }
                 segment.FillSegment(PictureBox.CreateGraphics());
@@ -78,8 +81,6 @@ namespace AboutStorage
                     segment.Using = false;
                 }
         }
-
-
         public void StartProcesses()
         {
             List<Process> processesForRemove = new List<Process>();
@@ -99,7 +100,6 @@ namespace AboutStorage
                     Processes.Remove(process);
             }
         }
-
         public void DoProcessingProcesses()
         {
             Thread.Sleep(100 * TimeExecuting);
@@ -114,6 +114,74 @@ namespace AboutStorage
                 Processes.Add(processForMove);
             else
                 RemoveProcess(processForMove);
+        }
+        public void StartProcessing()
+        {
+            int timeLeft = 0;
+            while(Processes.Count > 0 || ProcessingProcesses.Count > 0)
+            {
+                int countSegmentsNeed = -1;
+                for (int i = 0; i < Processes.Count; i++)
+                {
+                    if (Processes[i].CountSegmentsNeed <= CountFreeSegments)
+                    {
+                        SetProcess(Processes[i]);
+                        ProcessingProcesses.Add(Processes[i]);
+                        Processes.Remove(Processes[i]);
+                        i--;
+                    }
+                    else
+                    {
+                        countSegmentsNeed = Processes[i].CountSegmentsNeed;
+                        break;
+                    }
+                }
+                Thread.Sleep(400);
+                timeLeft += 1;
+                foreach (Process prProcess in ProcessingProcesses)
+                {
+                    prProcess.TimeTotalExecuting -= 1;
+                    if (prProcess.TimeTotalExecuting == 0)
+                    {
+                        ExecutedProcesses.Add(prProcess);
+                        RemoveProcess(prProcess);
+                        CountFreeSegments += prProcess.CountSegmentsNeed;
+                    }
+                }
+                
+                if (timeLeft % TimeExecuting == 0)
+                {
+                    while (countSegmentsNeed > CountFreeSegments && ProcessingProcesses.Count > 0)
+                    {
+                        Process process = ProcessingProcesses.OrderBy(x => x.TimeTotalExecuting).ToArray()[0];
+                        ProcessingProcesses.Remove(process);
+                        RemoveProcess(process);
+                        CountFreeSegments += process.CountSegmentsNeed;
+                        Processes.Add(process);
+                    }
+
+                }
+                foreach (var remProc in ExecutedProcesses)
+                {
+                    if (ProcessingProcesses.Contains(remProc))
+                    {
+                        ProcessingProcesses.Remove(remProc);
+                        RemoveProcess(remProc);
+                    }
+                }
+                while (countSegmentsNeed <= CountFreeSegments && Processes.Count > 0)
+                {
+                    Process process = Processes[0];
+                    Processes.Remove(process);
+                    ProcessingProcesses.Add(process);
+                    SetProcess(process);
+                    if (Processes.Count > 0)
+                        countSegmentsNeed = Processes[0].CountSegmentsNeed;
+                }
+                Label.Invoke(new Action(() => Label.Text = CountFreeSegments.ToString()));
+                foreach (Segment segment in Segments)
+                    segment.FillSegment(PictureBox.CreateGraphics());
+            }
         }
 
     }
