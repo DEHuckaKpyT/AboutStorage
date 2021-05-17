@@ -22,11 +22,12 @@ namespace AboutStorage
         public int LengthSegmentOnPictureBox;
         public PictureBox PictureBox;
         public Label Label;
+        public Label LabelTime;
         ListBox ListBoxWaitingProcesses;
         ListBox ListBoxProcessingProcesses;
         ListBox ListBoxExecutedProcesses;
 
-        public AddresSpace(int timeExecuting, int countOfSegments, List<Process> processes, PictureBox pictureBox, Label label,
+        public AddresSpace(int timeExecuting, int countOfSegments, List<Process> processes, PictureBox pictureBox, Label label, Label labelTime,
             ListBox listBoxWaitingProcesses, ListBox listBoxProcessingProcesses, ListBox listBoxExecutedProcesses)
         {
             TimeExecuting = timeExecuting;
@@ -39,6 +40,7 @@ namespace AboutStorage
             PictureBox = pictureBox;
             Processes = processes;
             Label = label;
+            LabelTime = labelTime;
             ListBoxWaitingProcesses = listBoxWaitingProcesses;
             ListBoxProcessingProcesses = listBoxProcessingProcesses;
             ListBoxExecutedProcesses = listBoxExecutedProcesses;
@@ -187,6 +189,7 @@ namespace AboutStorage
                         countSegmentsNeed = Processes[0].CountSegmentsNeed;
                 }
                 Label.Invoke(new Action(() => Label.Text = CountFreeSegments.ToString() + " - количество свободных сегментов"));
+                LabelTime.Invoke(new Action(() => LabelTime.Text = (timeLeft % TimeExecuting).ToString() + " - время выполнения"));
                 foreach (Segment segment in Segments)
                     segment.FillSegment(PictureBox.CreateGraphics());
                 UpdateListBoxes();

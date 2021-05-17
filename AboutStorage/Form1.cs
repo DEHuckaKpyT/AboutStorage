@@ -42,7 +42,7 @@ namespace AboutStorage
 
         private void button1_Click(object sender, EventArgs e)
         {
-            AddresSpace = new AddresSpace(8, int.Parse(textBox1.Text), Processes, pictureBox1, label2,
+            AddresSpace = new AddresSpace(8, int.Parse(textBox1.Text), Processes, pictureBox1, label2, label3,
                 listBoxWaitingProcesses, listBoxProcessingProcesses, listBoxExecutedProcesses);
             AddresSpace.PaintSegments();
         }
