@@ -15,6 +15,8 @@ namespace AboutStorage
     {
         AddresSpace AddresSpace;
         List<Process> Processes;
+        Thread thread;
+        bool stopped = false;
         public Form1()
         {
             InitializeComponent();
@@ -27,14 +29,14 @@ namespace AboutStorage
             Processes.Add(new Process(30, 29, Color.Blue));
             Processes.Add(new Process(30, 27, Color.Yellow));
             Processes.Add(new Process(30, 27, Color.Green));
-            Processes.Add(new Process(30, 75, Color.Black));
+            Processes.Add(new Process(30, 75, Color.Cyan));
             Processes.Add(new Process(30, 19, Color.SandyBrown));
-            Processes.Add(new Process(5, 1, Color.Red));
-            Processes.Add(new Process(30, 49, Color.Blue));
-            Processes.Add(new Process(30, 17, Color.Yellow));
-            Processes.Add(new Process(30, 27, Color.Green));
-            Processes.Add(new Process(30, 35, Color.Black));
-            Processes.Add(new Process(30, 19, Color.SandyBrown));
+            Processes.Add(new Process(5, 1, Color.DarkGray));
+            Processes.Add(new Process(30, 49, Color.GreenYellow));
+            Processes.Add(new Process(30, 17, Color.Indigo));
+            Processes.Add(new Process(30, 27, Color.Navy));
+            Processes.Add(new Process(30, 35, Color.DarkGreen));
+            Processes.Add(new Process(30, 19, Color.Purple));
 
 
 
@@ -49,11 +51,18 @@ namespace AboutStorage
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //new Thread(new ThreadStart(AddresSpace.StartProcesses)).Start();
-            //new Thread(new ThreadStart(AddresSpace.DoProcessingProcesses)).Start();
-            new Thread(new ThreadStart(AddresSpace.StartProcessing)).Start();
+            
+            thread = new Thread(new ThreadStart(AddresSpace.StartProcessing));
+            thread.Start();
         }
 
-
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (stopped)
+                thread.Resume();
+            else
+                thread.Suspend();
+            stopped = !stopped;
+        }
     }
 }

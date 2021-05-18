@@ -91,51 +91,66 @@ namespace AboutStorage
                     segment.Using = false;
                 }
         }
-        public void StartProcesses()
+        public void SetProcess(Process process, int index)
         {
-            List<Process> processesForRemove = new List<Process>();
-            while (Processes.Count > 0)
+            for (int i = index; i < process.CountSegmentsNeed + index; i++)
             {
-                foreach (Process process in Processes)
+                if (!Segments[i].Using)
                 {
-                    if (CountFreeSegments >= process.CountSegmentsNeed)
-                    {
-                        SetProcess(process);
-                        processesForRemove.Add(process);
-                    }
-                    else
-                        break;
+                    Segments[i].Using = true;
+                    Segments[i].CurrentProcess = process;
                 }
-                foreach (Process process in processesForRemove)
-                    Processes.Remove(process);
+                Segments[i].FillSegment(PictureBox.CreateGraphics());
             }
         }
-        public void DoProcessingProcesses()
-        {
-            Thread.Sleep(100 * TimeExecuting);
-            foreach (Process process in ProcessingProcesses)
-            {
-                process.TimeTotalExecuting -= TimeExecuting;
-            }
 
-            Process processForMove = ProcessingProcesses.OrderBy(x => x.TimeTotalExecuting).ToArray()[0];
-            ProcessingProcesses.Remove(processForMove);
-            if (processForMove.TimeTotalExecuting > 0)
-                Processes.Add(processForMove);
-            else
-                RemoveProcess(processForMove);
+        int MaxSize(ref int index)
+        {
+            int maxAnswer = 0;
+            int tempMax = 0;
+            int indexAnswer = -1;
+            int indexTemp = -1;
+            for (int i = 0; i < Segments.Count; i++)
+            {
+                if (!Segments[i].Using)
+                {
+                    tempMax++;
+                    if (indexTemp == -1)
+                        indexTemp = i;
+                }
+                else
+                {
+                    if (tempMax > maxAnswer)
+                    {
+                        maxAnswer = tempMax;
+                        indexAnswer = indexTemp;
+                    }
+                    tempMax = 0;
+                    indexTemp = -1;
+                }
+            }
+            if (tempMax > maxAnswer)
+            {
+                maxAnswer = tempMax;
+                indexAnswer = indexTemp;
+            }
+            index = indexAnswer;
+            return maxAnswer;
         }
+        
         public void StartProcessing()
         {
             int timeLeft = 0;
             while(Processes.Count > 0 || ProcessingProcesses.Count > 0)
             {
+                int indexStartSegments = 0;
                 int countSegmentsNeed = -1;
                 for (int i = 0; i < Processes.Count; i++)
                 {
+                    CountFreeSegments = MaxSize(ref indexStartSegments);
                     if (Processes[i].CountSegmentsNeed <= CountFreeSegments)
                     {
-                        SetProcess(Processes[i]);
+                        SetProcess(Processes[i], indexStartSegments);
                         ProcessingProcesses.Add(Processes[i]);
                         Processes.Remove(Processes[i]);
                         i--;
@@ -145,8 +160,9 @@ namespace AboutStorage
                         countSegmentsNeed = Processes[i].CountSegmentsNeed;
                         break;
                     }
+                    CountFreeSegments = MaxSize(ref indexStartSegments);
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(200);
                 timeLeft += 1;
                 foreach (Process prProcess in ProcessingProcesses)
                 {
@@ -158,7 +174,9 @@ namespace AboutStorage
                         CountFreeSegments += prProcess.CountSegmentsNeed;
                     }
                 }
-                
+
+                indexStartSegments = 0;
+                CountFreeSegments = MaxSize(ref indexStartSegments);
                 if (timeLeft % TimeExecuting == 0)
                 {
                     while (countSegmentsNeed > CountFreeSegments && ProcessingProcesses.Count > 0)
@@ -166,7 +184,7 @@ namespace AboutStorage
                         Process process = ProcessingProcesses.OrderBy(x => x.TimeTotalExecuting).ToArray()[0];
                         ProcessingProcesses.Remove(process);
                         RemoveProcess(process);
-                        CountFreeSegments += process.CountSegmentsNeed;
+                        CountFreeSegments = MaxSize(ref indexStartSegments);
                         Processes.Add(process);
                     }
 
@@ -179,14 +197,18 @@ namespace AboutStorage
                         RemoveProcess(remProc);
                     }
                 }
+
+                CountFreeSegments = MaxSize(ref indexStartSegments);
                 while (countSegmentsNeed <= CountFreeSegments && Processes.Count > 0)
                 {
                     Process process = Processes[0];
                     Processes.Remove(process);
                     ProcessingProcesses.Add(process);
-                    SetProcess(process);
+                    CountFreeSegments = MaxSize(ref indexStartSegments);
+                    SetProcess(process, indexStartSegments);
                     if (Processes.Count > 0)
                         countSegmentsNeed = Processes[0].CountSegmentsNeed;
+                    CountFreeSegments = MaxSize(ref indexStartSegments);
                 }
                 Label.Invoke(new Action(() => Label.Text = CountFreeSegments.ToString() + " - количество свободных сегментов"));
                 LabelTime.Invoke(new Action(() => LabelTime.Text = (timeLeft % TimeExecuting).ToString() + " - время выполнения"));
