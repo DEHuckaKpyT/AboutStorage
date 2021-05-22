@@ -35,7 +35,7 @@ namespace AboutStorage
             Processes.Add(new Process(30, 49, Color.GreenYellow));
             Processes.Add(new Process(30, 17, Color.Indigo));
             Processes.Add(new Process(30, 27, Color.Navy));
-            Processes.Add(new Process(30, 35, Color.DarkGreen));
+            Processes.Add(new Process(30, 35, Color.MediumOrchid));
             Processes.Add(new Process(30, 19, Color.Purple));
 
 

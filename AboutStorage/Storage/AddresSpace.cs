@@ -162,7 +162,7 @@ namespace AboutStorage
                     }
                     CountFreeSegments = MaxSize(ref indexStartSegments);
                 }
-                Thread.Sleep(200);
+                Thread.Sleep(100);
                 timeLeft += 1;
                 foreach (Process prProcess in ProcessingProcesses)
                 {
@@ -186,6 +186,15 @@ namespace AboutStorage
                         RemoveProcess(process);
                         CountFreeSegments = MaxSize(ref indexStartSegments);
                         Processes.Add(process);
+                        if (countSegmentsNeed > CountFreeSegments)
+                        {
+                            foreach (Segment segment in Segments)
+                                segment.FillSegment(PictureBox.CreateGraphics());
+                            UpdateListBoxes();
+                            Label.Invoke(new Action(() => Label.Text = CountFreeSegments.ToString() + " - количество свободных сегментов"));
+                            MessageBox.Show($"Вытеснен процесс {process.Color}, {process.CountSegmentsNeed}\n" +
+                                $"Процесс {Processes[0].Color} требует {Processes[0].CountSegmentsNeed}, свободных {CountFreeSegments }");
+                        }
                     }
 
                 }
