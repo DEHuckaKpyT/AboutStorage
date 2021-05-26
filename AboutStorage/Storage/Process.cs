@@ -22,13 +22,12 @@ namespace AboutStorage
             Bias = -1;
             Color = color;
         }
-
         public override string ToString()
         {
             string adress = "0x00000000";
             if (Bias >= 0)
             {
-                adress.Remove(adress.Length - (CountSegmentsNeed + Bias).ToString().Length - 1, (CountSegmentsNeed + Bias).ToString().Length);
+                adress = adress.Remove(adress.Length - (CountSegmentsNeed + Bias).ToString().Length - 1, (CountSegmentsNeed + Bias).ToString().Length);
                 adress += (CountSegmentsNeed + Bias).ToString();
             }
             else
