@@ -59,7 +59,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(132, 65);
             this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
+            this.button1.Text = "сгенерировать";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -86,7 +86,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(185, 42);
             this.button2.TabIndex = 4;
-            this.button2.Text = "button2";
+            this.button2.Text = "запустить";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -104,7 +104,7 @@
             // 
             this.listBoxWaitingProcesses.FormattingEnabled = true;
             this.listBoxWaitingProcesses.Location = new System.Drawing.Point(526, 188);
-            this.listBoxWaitingProcesses.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listBoxWaitingProcesses.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxWaitingProcesses.Name = "listBoxWaitingProcesses";
             this.listBoxWaitingProcesses.Size = new System.Drawing.Size(216, 329);
             this.listBoxWaitingProcesses.TabIndex = 6;
@@ -113,7 +113,7 @@
             // 
             this.listBoxProcessingProcesses.FormattingEnabled = true;
             this.listBoxProcessingProcesses.Location = new System.Drawing.Point(746, 188);
-            this.listBoxProcessingProcesses.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listBoxProcessingProcesses.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxProcessingProcesses.Name = "listBoxProcessingProcesses";
             this.listBoxProcessingProcesses.Size = new System.Drawing.Size(216, 329);
             this.listBoxProcessingProcesses.TabIndex = 7;
@@ -122,7 +122,7 @@
             // 
             this.listBoxExecutedProcesses.FormattingEnabled = true;
             this.listBoxExecutedProcesses.Location = new System.Drawing.Point(965, 188);
-            this.listBoxExecutedProcesses.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listBoxExecutedProcesses.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxExecutedProcesses.Name = "listBoxExecutedProcesses";
             this.listBoxExecutedProcesses.Size = new System.Drawing.Size(216, 329);
             this.listBoxExecutedProcesses.TabIndex = 8;
@@ -140,11 +140,11 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(568, 96);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(56, 19);
+            this.button3.Size = new System.Drawing.Size(95, 29);
             this.button3.TabIndex = 10;
-            this.button3.Text = "button3";
+            this.button3.Text = "пауза/пуск";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
