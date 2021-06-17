@@ -58,7 +58,8 @@ namespace AboutStorage
                         new Point((i / CountSegmentsOnSidePictureBox) * LengthSegmentOnPictureBox + LengthSegmentOnPictureBox,
                         (i % CountSegmentsOnSidePictureBox) * LengthSegmentOnPictureBox + LengthSegmentOnPictureBox),
                         new Point((i / CountSegmentsOnSidePictureBox) * LengthSegmentOnPictureBox,
-                        (i % CountSegmentsOnSidePictureBox) * LengthSegmentOnPictureBox + LengthSegmentOnPictureBox)}));
+                        (i % CountSegmentsOnSidePictureBox) * LengthSegmentOnPictureBox + LengthSegmentOnPictureBox)},
+                        i));
         }
 
         public void PaintSegments()
